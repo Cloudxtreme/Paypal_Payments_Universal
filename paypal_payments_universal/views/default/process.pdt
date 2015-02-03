@@ -1,0 +1,30 @@
+	
+	<?php
+	if($this->Html->ifSet($message)) {
+	?>
+		<div class="alert alert-warning  pull-left" >
+			<?php
+				echo $this->Html->ifSet($message) ;
+			?>
+		</div>
+		
+	<?php	
+	}
+	
+	// Disable CSRF for this form
+	$this->Form->setCsrfOptions(array('set_on_create' => false));
+	$this->Form->create($post_to);
+	if ($this->Html->ifSet($fields)) {
+		foreach ($fields as $key => $value) {
+			$this->Form->fieldHidden($key, $value);
+		}
+	}
+	
+	$button_url = $recurring ? "https://www.paypalobjects.com/webstatic/en_US/btn/btn_subscribe_cc_147x47.png" : "https://www.paypalobjects.com/webstatic/en_US/btn/btn_paynow_cc_144x47.png";
+	
+	$this->Form->fieldImage("submit", $this->_("PaypalPaymentsUniversal.buildprocess.submit", true),
+		array('src' => $button_url)
+	);
+	
+	$this->Form->end();
+	?>
